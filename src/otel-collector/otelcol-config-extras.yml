@@ -1,18 +1,18 @@
-# Copyright The OpenTelemetry Authors
-# SPDX-License-Identifier: Apache-2.0
+# src/otel-collector/otelcol-config-extras.yml
+exporters:
+  otlphttp/my_backend:
+    endpoint: localhost:4317
+    headers:
+      # Authorization: "Bearer YOUR_API_KEY"
+      # or, depending on the vendor:
+      api-key: "3be1a4ad103cf21a7f6c9234b94a3ce150274a818c5167373baf98caa678d2e7"
+      # x-honeycomb-team: "YOUR_API_KEY"
 
-# extra settings to be merged into OpenTelemetry Collector configuration
-# do not delete this file
-
-## Example configuration for sending data to your own OTLP HTTP backend
-## Note: the spanmetrics exporter must be included in the exporters array
-## if overriding the traces pipeline.
-##
-#  exporters:
-#    otlp_http/example:
-#      endpoint: <your-endpoint-url>
-#
-#  service:
-#    pipelines:
-#      traces:
-#        exporters: [spanmetrics, otlp_http/example]
+service:
+  pipelines:
+    traces:
+      exporters: [spanmetrics, otlphttp/my_backend]
+    metrics:
+      exporters: [otlphttp/my_backend]
+    logs:
+      exporters: [otlphttp/my_backend]
